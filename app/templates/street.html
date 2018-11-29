@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>recording-visualization</title>
+    <link rel="stylesheet" href="{{url_for('static',filename= 'imgplay-master/dist/jquery.imgplay.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='street_scripts/styles.css')}}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link  href="../static/viewerjs/dist/viewer.css" rel="stylesheet">
+    <script src="../static/viewerjs/dist/viewer.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="box">
+            <div id="imageplayer" class="imageplayer"> 
+                <ul id="images">
+                        {% for image in image_list %}
+                        <li><img src="../static/images/2018_06_05-10_04_16/{{image}}"></li>
+                        {% endfor %}
+                </ul>
+             </div>
+            <div id="map" class="map">
+                <div class="loading">Loading...</div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{{url_for('static',filename= 'imgplay-master/dist/jquery.imgplay.js')}}"></script>
+    <script type="text/javascript">
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+   <script>
+    var jsonString = [];
+    {% for seconds in seconds_list %}
+        var temp = [];
+        {% for second in seconds %}
+            temp.push({
+            lat : {{second.lat}}, 
+            lon : {{second.lon}}, 
+            altitude_m : {{second.altitude_m}},  
+            speed_m_s : {{second.speed_m_s}}, 
+            bearing_degrees : {{second.bearing_degrees}}, 
+            time_usec : {{second.time_usec}},
+            trial_date : "{{second.trial_date}}"
+            });
+        {% endfor %}
+        jsonString.push(temp);
+       // console.log(jsonString[0]);
+    {% endfor %}
+   // console.log(jsonString);
+   </script>
+   
+  
+  
+    
+    <script src="{{url_for('static', filename='street_scripts/scripts.js')}}"></script>
+   
+</body>
+
+</html>
+{% endblock %}

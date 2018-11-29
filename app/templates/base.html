@@ -1,0 +1,28 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Map</title>
+        {% else %}
+        <title>Welcome to Map</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>Map: 
+            <a href="{{url_for('index')}}">Home</a>
+            <a href="{{url_for('login')}}">Login</a>
+            <a href="{{url_for('map')}}">Map</a> 
+            <a href="{{url_for('street_view')}}">Streetview</a>
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if mesdsages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %} {% endblock %}
+    </body>
+</html>

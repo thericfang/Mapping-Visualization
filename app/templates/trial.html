@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>recording-visualization</title>
+    <link href="../static/nvd3/build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" charset="utf-8"></script>
+    <script src="../static/nvd3/build/nv.d3.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='trial_scripts/styles.css')}}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <style>
+            text {
+                font: 12px sans-serif;
+            }
+            svg {
+                display: block;
+            }
+            html, body, #chart1, svg {
+                margin: 0px;
+                padding: 0px;
+                height: 100%;
+                width: 100%;
+            }
+    
+            .dashed {
+                stroke-dasharray: 5,5;
+            }
+        </style>
+</head>
+
+<body>
+    <script>
+        var jsonString = [];
+        {% for second in seconds %}
+        jsonString.push({
+        lat : {{second.lat}}, 
+        lon : {{second.lon}}, 
+        altitude_m : {{second.altitude_m}},  
+        speed_m_s : {{second.speed_m_s}}, 
+        bearing_degrees : {{second.bearing_degrees}}, 
+        time_usec : {{second.time_usec}}
+        });
+        {% endfor %}
+        var imu = [];
+        {% for unit in accelerations %}
+        imu.push({
+        x : {{unit.x}},
+        y : {{unit.y}},
+        z : {{unit.z}},
+        time_usec : {{unit.time_usec}},
+        trial_date : {{unit.trial_date}}
+        });
+        console.log({{imu}});
+        {% endfor %}
+    </script>
+    <script src="{{url_for('static', filename='trial_scripts/chart.js')}}"></script>
+    <div class="container">
+            <div id="chart1">
+            </div>
+        <div class="box">
+                
+            <div id="video" class="video">
+                <video id="mp4" preload="auto">
+                    <source src="{{('https://s3.amazonaws.com/mappingvisualization/' + date + '/video.mp4')}}" type="video/mp4" />
+                </video>
+                <div class="dashboard">
+                    <button class='button play' onclick="pausePlay()"> </button>
+                    <div class="speed"> 
+                        <label>Speed:</label>
+                        <span id="speed">0.00</span>
+                        mph
+                    </div>
+                    
+                    <div class="compass-box">
+                        <span>N</span>
+                        <img id="compass" src="{{url_for('static', filename='images/compass.svg')}}" />
+                        <span>S</span>
+                    </div>
+                </div>
+            </div>
+            <div id="graph"> <svg></svg> </div>
+            <div id="map" class="map">
+                <div class="loading">Loading...</div>
+            </div>
+            
+        </div>
+    </div>
+    
+
+   <div id = "map" class="map">
+    <script src="{{url_for('static', filename='trial_scripts/scripts.js')}}"></script>
+   </div>
+</body>
+
+</html>
+{% endblock %}

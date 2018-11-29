@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sign In</h1>
+    <form action= "" method = "post" novalidate> 
+        <!-- form is used as a container for web form. action is the url that should be used. method is the http request method that is used when submitting the form to the server -->
+        {{ form.hidden_tag() }}
+        <!-- Generates a hidden field that includes a token that is used to protect the form against CSRF attacks.-->
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+            {% for error in form.username.errors %}
+            <span style="color: rgb(255,0,0)">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+            {% for error in form.password.errors %}
+            <span style="color: red">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p> {{ form.remember_me() }} {{ form.remember_me.label }} </p>
+        <p> {{ form.submit() }} </p> 
+    </form>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<html>
+  <head>
+    <title>Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var myLatLng = {lat: {{points[1].lat}}, lng: {{points[1].lon}}};
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: myLatLng,
+          zoom: 10
+        });
+        {% for point in points %}
+        var marker = new google.maps.Marker({
+          position: {lat: {{point.lat}}, lng: {{point.lon}}},
+          map: map,
+          title: "{{point}}",
+        });
+        addInfoWindow(marker, "{{point}}");
+        //addZoom(marker,map);
+        addLink(marker, "{{point.trial_date}}");
+        {% endfor %}
+        
+    }
+      function addInfoWindow(marker, message) {
+
+        var infoWindow = new google.maps.InfoWindow({
+            content: message
+        });
+
+        google.maps.event.addListener(marker, 'mouseover', function () {
+            infoWindow.open(map, marker);
+        });
+
+        google.maps.event.addListener(marker, 'mouseout', function (){
+            infoWindow.close(map, marker);
+        });
+      }
+      
+     /* function addZoom(marker, map) {
+        google.maps.event.addListener(marker, 'click', function () {
+          map.setZoom(15);
+          map.setCenter(marker.getPosition());
+        });
+      }*/
+      function addLink(marker, url) {
+        google.maps.event.addListener(marker, 'click', function (){
+          window.location.href = url;
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlOAhgmvkQB6GhtfR4_IzhqP6ahwvatcM&callback=initMap"
+    async defer></script>
+  </body>
+</html>
+{% endblock %}

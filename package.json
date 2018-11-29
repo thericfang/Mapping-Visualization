@@ -1,0 +1,26 @@
+{
+  "name": "mapping_visualization",
+  "version": "1.0.0",
+  "description": "This application is responsible for creating a database for GPS coordinate locations and tracking a vehicle's route, while also displaying a video while tracking.",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery-viewer": "^1.0.0",
+    "nodejs": "0.0.0",
+    "viewerjs": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlackSesameTechnologies/mapping_visualization.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BlackSesameTechnologies/mapping_visualization/issues"
+  },
+  "homepage": "https://github.com/BlackSesameTechnologies/mapping_visualization#readme"
+}

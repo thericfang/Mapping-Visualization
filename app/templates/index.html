@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<HTML>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>recording-visualization</title>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='trial_scripts/styles.css')}}" />
+    </head>
+    <body>
+        <a href="{{url_for('map')}}">Map </a>
+        <a href="{{url_for('street_view')}}">Streetview </a>
+    </body>
+</HTML>
+{% endblock %}
